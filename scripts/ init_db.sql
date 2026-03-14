@@ -1,7 +1,7 @@
 /* =========================================================
    DATA WAREHOUSE INITIAL SETUP
    ---------------------------------------------------------
-   This script creates the base database and schemas for a
+   This script creates three chemas for a
    layered Data Warehouse architecture.
 
    Architecture Layers:
@@ -21,19 +21,10 @@
 
    ========================================================= */
 
+
 /* Use MySQL system database to ensure permission
    to create a new database */
 USE mysql;
-
-
-/* Create the main Data Warehouse database
-   IF NOT EXISTS prevents errors if it already exists */
-CREATE DATABASE IF NOT EXISTS DataWarehouse;
-
-
-/* Switch context to the Data Warehouse database */
-USE DataWarehouse;
-
 
 /* ---------------------------------------------------------
    Create Bronze Layer
