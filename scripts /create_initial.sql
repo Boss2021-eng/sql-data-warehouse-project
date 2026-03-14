@@ -8,8 +8,18 @@
    1. Bronze  - Raw data ingestion from source systems
    2. Silver  - Cleaned and transformed datasets
    3. Gold    - Aggregated, analytics-ready datasets
-   ========================================================= */
 
+   ---------------------------------------------------------
+   WARNING
+   ---------------------------------------------------------
+   - This script may DROP the existing DataWarehouse database.
+   - Running this script will permanently delete all data
+     stored in the database if it already exists.
+   - Ensure that any important data has been backed up
+     before executing this script.
+   - Use only in development or controlled environments.
+
+   ========================================================= */
 
 /* Use MySQL system database to ensure permission
    to create a new database */
