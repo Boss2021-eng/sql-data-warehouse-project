@@ -65,9 +65,9 @@ CREATE TABLE dw_silver.crm_sales_details (
     sls_order_dt DATE,
     sls_ship_dt DATE,
     sls_due_dt DATE,
-    sls_sales INT,
     sls_quantity INT,
-    sls_price INT
+    sls_price INT,
+	sls_sales INT
 );
 
 
