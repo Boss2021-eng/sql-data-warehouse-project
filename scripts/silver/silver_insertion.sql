@@ -51,6 +51,7 @@ SELECT
 
 FROM dw_bronze.crm_prd_info;
 
+DROP TABLE  dw_silver.crm_sales_details;
 -- Data cleaning and insertion for the sales details table
 INSERT INTO dw_silver.crm_sales_details
 (sls_ord_num, sls_prd_key, sls_cust_id, sls_order_dt, sls_ship_dt, sls_due_dt, sls_sales, sls_quantity, sls_price)
@@ -70,19 +71,32 @@ SELECT
 		WHEN sls_due_dt < 0 OR LENGTH(sls_due_dt) != 8 THEN NULL
 		ELSE STR_TO_DATE(CAST(sls_due_dt AS CHAR), '%Y%m%d')
 	END AS sls_due_dt,
+    
+    -- Clean Quantity
     CASE 
-		WHEN sls_sales IS NULL OR sls_sales <=0 OR sls_sales != sls_quantity* ABS(sls_price)
-        THEN  sls_quantity * ABS(sls_price)
-        ELSE sls_sales
-    END AS sls_sales,
-    CASE 
-		WHEN sls_quantity IS NULL OR sls_quantity <=0
-        THEN sls_sales / NULLIF(sls_price,0)
+        WHEN sls_quantity IS NULL OR sls_quantity < 0 THEN NULL
         ELSE sls_quantity
-	END AS sls_quantity,
+    END AS sls_quantity,
+
+    -- Clean Price
     CASE 
-		WHEN sls_price IS NULL OR sls_price <=0
-        THEN sls_sales / NULLIF(sls_quantity,0)
+        WHEN sls_price IS NULL OR sls_price <= 0 THEN NULL
         ELSE sls_price
-	END AS sls_price
+    END AS sls_price,
+
+    -- Correct Sales (final step, depends on cleaned values)
+    CASE 
+    -- 1. Defensive Check: If inputs are missing, the result must be NULL
+    WHEN sls_quantity IS NULL OR sls_price IS NULL THEN NULL
+    
+    -- 2. Validation Check: If recorded sales don't match (Qty * Price), fix it
+    WHEN sls_sales != (sls_quantity * sls_price) THEN (sls_quantity * sls_price)
+    
+    -- 3. Success: Keep original sales if it matches the math
+    ELSE sls_sales
+END AS sls_sales
+
 FROM dw_bronze.crm_sales_details;
+
+SELECT *
+FROM dw_silver.crm_sales_details;
