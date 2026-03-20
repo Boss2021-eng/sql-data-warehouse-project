@@ -29,9 +29,12 @@ CREATE TABLE dw_silver.crm_cust_info (
     cst_lastname VARCHAR(50),
     cst_marital_status VARCHAR(50),
     cst_gndr VARCHAR(50),
-    cst_create_date DATE
+    cst_create_date DATE,
+    dwh_create_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
+SELECT * FROM
+dw_silver.crm_cust_info
+LIMIT 5;
 
 /* ---------------------------------------------------------
    CRM Product Information Table
@@ -47,7 +50,8 @@ CREATE TABLE dw_silver.crm_prd_info (
     prd_nm VARCHAR(50),
     prd_line INT,
     prd_start_dt DATE,
-    prd_end_dt DATE
+    prd_end_dt DATE,
+    dwh_create_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -67,7 +71,8 @@ CREATE TABLE dw_silver.crm_sales_details (
     sls_due_dt DATE,
     sls_quantity INT,
     sls_price INT,
-	sls_sales INT
+	sls_sales INT,
+    dwh_create_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -81,7 +86,8 @@ DROP TABLE IF EXISTS dw_silver.erm_cust_az12;
 CREATE TABLE dw_silver.erm_cust_az12 (
 	CID VARCHAR(50) PRIMARY KEY,
     BDATE DATE,
-    GEN VARCHAR(50)
+    GEN VARCHAR(50),
+    dwh_create_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -94,7 +100,8 @@ DROP TABLE IF EXISTS dw_silver.erm_loc_a101;
 
 CREATE TABLE dw_silver.erm_loc_a101 (
 	CID VARCHAR(50) PRIMARY KEY,
-    CNTRY VARCHAR(50)
+    CNTRY VARCHAR(50),
+    dwh_create_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -109,5 +116,6 @@ CREATE TABLE dw_silver.erm_px_cat_GIV2(
 	ID VARCHAR(50) PRIMARY KEY,
     CAT VARCHAR(50),
     SUBCAT VARCHAR(50),
-    MAINTENANCE VARCHAR(50)
+    MAINTENANCE VARCHAR(50),
+    dwh_create_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
