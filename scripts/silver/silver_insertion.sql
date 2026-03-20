@@ -20,6 +20,9 @@ END AS cst_gndr,
 cst_create_date
 FROM dw_bronze.crm_cust_info;
 
+-- check for the content of the table
+SELECT *
+FROM dw_silver.crm_cust_info;
 
 -- insertion for the second table crm_prd_info
 
@@ -51,7 +54,11 @@ SELECT
 
 FROM dw_bronze.crm_prd_info;
 
-DROP TABLE  dw_silver.crm_sales_details;
+-- check the contents of the table
+SELECT *
+FROM dw_silver.crm_prd_info;
+
+
 -- Data cleaning and insertion for the sales details table
 INSERT INTO dw_silver.crm_sales_details
 (sls_ord_num, sls_prd_key, sls_cust_id, sls_order_dt, sls_ship_dt, sls_due_dt, sls_sales, sls_quantity, sls_price)
@@ -98,5 +105,59 @@ END AS sls_sales
 
 FROM dw_bronze.crm_sales_details;
 
+-- check for the content of the table
 SELECT *
 FROM dw_silver.crm_sales_details;
+
+-- 4th table erm_cust_az12
+INSERT INTO dw_silver.erm_cust_az12 ( CID, BDATE, GEN)
+SELECT *
+FROM(
+SELECT  
+	CID,
+    CASE 
+		WHEN BDATE > CURRENT_DATE() THEN NULL
+        ELSE BDATE
+	END AS BDATE,
+    CASE 
+		-- Replacing the white and internal spaces
+		WHEN UPPER(TRIM(REGEXP_REPLACE(GEN, '\\s+', ''))) IN ('M', 'MALE') THEN 'male'
+		WHEN UPPER(TRIM(REGEXP_REPLACE(GEN, '\\s+', ''))) IN ('F', 'FEMALE') THEN 'female'
+        -- Replace the empty strings as null and finally with 'n/a'
+		ELSE COALESCE(NULLIF((REGEXP_REPLACE(GEN, '\\s+', '')), ''), 'n/a')  
+	END AS GEN
+FROM dw_bronze.erm_cust_az12
+WHERE CID NOT LIKE 'NAS%'
+UNION
+SELECT 
+	CID, 
+     CASE 
+		WHEN BDATE > CURRENT_DATE() THEN NULL
+        ELSE BDATE
+	END AS BDATE,
+    CASE 
+		WHEN UPPER(TRIM(REGEXP_REPLACE(GEN, '\\s+', ''))) IN ('M', 'MALE') THEN 'male'
+		WHEN UPPER(TRIM(REGEXP_REPLACE(GEN, '\\s+', ''))) IN ('F', 'FEMALE') THEN 'female'
+		ELSE COALESCE(NULLIF((REGEXP_REPLACE(GEN, '\\s+', '')), ''), 'n/a')  
+	END AS GEN
+FROM dw_bronze.erm_cust_az12 
+WHERE CID LIKE 'NAS%') t;
+
+-- check for the content of the table
+SELECT *
+FROM dw_silver.erm_cust_az12;
+INSERT INTO dw_silver.erm_loc_a101 (CID, CNTRY)
+SELECT 
+	REPLACE(CID, '-', '') AS CID,
+    CASE 
+		WHEN TRIM(REGEXP_REPLACE(CNTRY, '\\s+', '')) = "DE" THEN "Denmark"
+		WHEN TRIM(REGEXP_REPLACE(CNTRY, '\\s+', '')) IN ('US', 'USA') THEN 'United States'
+        WHEN TRIM(REGEXP_REPLACE(CNTRY, '\\s+', '')) = '' THEN "N/A"
+        -- Remove hidden control characters (Carriage Returns, Line Feeds, Tabs) and trim edges
+        ELSE TRIM(REGEXP_REPLACE(CNTRY, '[\\r\\n\\t]+', ''))  
+    END AS CNTRY -- Normalize or handle blank codes
+FROM dw_bronze.erm_loc_a101;
+
+-- Check the content of the table
+SELECT *
+FROM dw_silver.erm_loc_a101;
