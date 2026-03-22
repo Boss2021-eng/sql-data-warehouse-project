@@ -162,6 +162,7 @@ SELECT
     p.product_key,
 
     -- Dates
+    s.sls_order_dt AS order_date,
     s.sls_ship_dt AS ship_date,
     s.sls_due_dt AS due_date,
 
