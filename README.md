@@ -33,8 +33,38 @@ The pipeline ensures data quality, scalability, and efficient querying, enabling
 - **Version Control:** Git & GitHub  
 
 ---
+## 📂 Data Sources
+
+This project integrates data from two primary source systems:
+
+- **CRM (Customer Relationship Management)** → `source_crm`  
+- **ERP (Enterprise Resource Planning)** → `source_erp`  
+
+All data is ingested into the **Bronze Layer (`dw_bronze`)** in its raw form using **flat files and bulk loading techniques**.
+
+---
+
+
+
+## 📥 Data Ingestion Method
+
+### 🔹 Flat Files
+- Source data is provided as **CSV/flat files** exported from CRM and ERP systems  
+- Files retain original structure and formatting  
+
+### 🔹 Bulk Insert
+- Data is loaded into the Bronze schema using **bulk insert operations** for efficiency  
+- Enables:
+  - Fast ingestion of large datasets  
+  - Minimal transformation during load  
+  - Preservation of raw data integrity  
+---
 
 ## 🏗️ Data Architecture (Medallion Architecture)
+
+<p align="center">
+  <img width="661" height="253" alt="image" src="https://github.com/user-attachments/assets/03e235da-841a-403c-8e8b-ce38b2bff02a" />
+</p>
 
 ### 🥉 Bronze Layer (Raw Data)
 - Stores **raw, unprocessed data** directly from source systems  
