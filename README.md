@@ -96,12 +96,8 @@ All data is ingested into the **Bronze Layer (`dw_bronze`)** in its raw form usi
 
 ## 🧱 Data Modelling
 - Designed using **Star Schema** for analytical efficiency  
-- Fact tables capture key metrics (e.g., transactions, wait times)  
-- Dimension tables provide context (e.g., date, category, location)  
-- Ensures:
-  - Reduced query complexity  
-  - Improved performance  
-  - Scalability  
+- Fact tables 
+- Two Dimension tables - product dimension table and customer dimension tables
 
 ---
 
