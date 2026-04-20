@@ -1,7 +1,5 @@
-# sql-data-warehouse-project
-Building a modern data warehouse with My SQL, including ETL processes, data modelling, and analytics
-
-# 📊 Data Engineering & Analytics Project
+# SQL Data Warehouse Project
+This project demonstrates the architecture and implementation of a modern Data Warehouse using MySQL. It features a robust ETL (Extract, Transform, Load) framework designed to handle complex data streams, alongside a structured Star Schema data model optimized for high-performance analytical querying and business intelligence.
 
 ## 📌 Project Overview
 This project implements a robust **Data Engineering and Analytics pipeline** using the **Medallion Architecture (Bronze, Silver, Gold layers)** to transform raw data into actionable insights.  
