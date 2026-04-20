@@ -97,7 +97,13 @@ All data is ingested into the **Bronze Layer (`dw_bronze`)** in its raw form usi
 ## 🧱 Data Modelling
 - Designed using **Star Schema** for analytical efficiency  
 - Fact tables 
-- Two Dimension tables - product dimension table and customer dimension tables
+- Two Dimension tables - product dimension and customer dimension tables
+
+<p align="center">
+  <img width="661" height="590" alt="image" src="https://github.com/user-attachments/assets/00e3dba9-30ca-4cdd-979c-57ac09d1835b" />
+</p>
+
+
 
 ---
 
